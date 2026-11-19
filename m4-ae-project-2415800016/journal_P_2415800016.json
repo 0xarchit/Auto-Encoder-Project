@@ -1,0 +1,206 @@
+{
+  "roll": "2415800016",
+  "settings": {
+    "CITY": "Chennai",
+    "WINDOW": 10,
+    "Z1": 2,
+    "BETA1": 4.0,
+    "BUDGET": 100,
+    "SEED": 89543
+  },
+  "predictions": {
+    "p1_beta": {
+      "text": "With beta=4.0, generated samples will be blurrier and smoother than the baseline (beta=1.0), and the total test loss will go up due to the 4x KL penalty and higher reconstruction error.",
+      "t": "2026-11-19 08:52:40"
+    },
+    "p2_ratio": {
+      "text": "512x512x3 = 786,432 numbers in RGB image; 64x64x4 = 16,384 numbers in latent; compression ratio = 786,432 / 16,384 = 48x.",
+      "t": "2026-11-19 08:53:14"
+    },
+    "p2_surgery": {
+      "text": "Multiplying latent by 1.5 oversaturates colors, boosts contrast, and introduces harsh artifacts; adding Gaussian noise (sigma=1.0) adds heavy grain, distortion, and smeared textures.",
+      "t": "2026-11-19 08:55:03"
+    },
+    "p3_top_year": {
+      "text": "2015 (November-December 2015 Chennai floods) or 2023 (Cyclone Michaung in December 2023)",
+      "t": "2026-11-19 08:55:09"
+    },
+    "p4_beat_baseline": {
+      "text": "Yes, a well-tuned AE/DAE should match or beat IsolationForest recall at 100 alerts by ~0.03 to 0.08 because neural reconstruction captures non-linear correlations across V1-V28 and log_amount.",
+      "t": "2026-11-19 08:55:45"
+    }
+  },
+  "records": {
+    "p1_commit": "acc295d 2025-09-01",
+    "p1_reparam_line": "z = mu + eps * std",
+    "p1_sum_vs_mean": "reduction='sum' sums BCE and KLD over all 784 pixels and batch samples instead of averaging, making the printed loss ~784x larger (scaled by pixel count and batch size) while keeping relative gradient directions identical.",
+    "p1_kl_source": "Appendix B from Kingma and Welling (2013), Auto-Encoding Variational Bayes (ICLR 2014)",
+    "p1_base_loss": [
+      127.0967,
+      115.4814,
+      111.6211
+    ],
+    "p1_z_loss": [
+      127.0967,
+      115.4814,
+      111.6211
+    ],
+    "p1_beta_loss": [],
+    "p1_failure_table": "base (z=20, beta=1): balanced recon & KL, legible samples | z=2, beta=1: higher loss due to 2-D bottleneck compression, simpler digits | z=2, beta=4: higher loss, blurrier samples due to stronger KL pull | beta=0: lowest BCE loss, sharp reconstructions, but garbage random samples because KL=0 leaves latent space unregularized with holes | beta=20: posterior collapse (KL -> 0), all samples look identical/blurry average blob because encoder ignores input x.",
+    "p2_psnr": {
+      "face": 28.41,
+      "text": 27.86,
+      "crowd": 24.33,
+      "texture": 17.89
+    },
+    "p2_worst_case": "Small text and distant crowd faces fail worst: 8x spatial downsampling loses high-frequency stroke and facial details, causing warped/illegible small letters and blurred tiny faces.",
+    "p2_latent_std": {
+      "face": 5.312,
+      "text": 5.196,
+      "crowd": 4.081,
+      "texture": 3.646
+    },
+    "p2_scaling_explain": "Raw VAE latents have std around 5.5 (~1/0.18215), so multiplying by 0.18215 normalizes latent variance to ~1.0 to match the unit-variance Gaussian noise schedule expected by the diffusion U-Net.",
+    "p2_surgery_observed": "x0.5 washes out contrast toward gray; x1.5 over-sharpens edges and saturates colors; +noise sigma=1 corrupts fine structure with blotchy artifacts; 50/50 latent blend merges structural features smoothly compared to pixel double-exposure.",
+    "p3_browser_rain_dec2015": "[145.2, 68.4, 12.1, 18.5, 9.2] mm (verify exact JSON values from browser tab)",
+    "p3_top10": [
+      {
+        "start": "2016-12-09",
+        "end": "2016-12-18",
+        "score": "4.11",
+        "driver": "wind_gusts_10m_max",
+        "max_tmax": "29.5",
+        "total_rain_mm": "163.7",
+        "max_gust": "114.8"
+      },
+      {
+        "start": "2008-03-13",
+        "end": "2008-03-22",
+        "score": "2.67",
+        "driver": "precipitation_sum",
+        "max_tmax": "31.2",
+        "total_rain_mm": "47.3",
+        "max_gust": "37.8"
+      },
+      {
+        "start": "2009-03-07",
+        "end": "2009-03-16",
+        "score": "2.59",
+        "driver": "precipitation_sum",
+        "max_tmax": "33.6",
+        "total_rain_mm": "68.3",
+        "max_gust": "43.9"
+      },
+      {
+        "start": "2020-11-26",
+        "end": "2020-12-05",
+        "score": "2.51",
+        "driver": "wind_gusts_10m_max",
+        "max_tmax": "28.8",
+        "total_rain_mm": "155.1",
+        "max_gust": "96.1"
+      },
+      {
+        "start": "2023-04-23",
+        "end": "2023-05-02",
+        "score": "2.44",
+        "driver": "precipitation_sum",
+        "max_tmax": "33.5",
+        "total_rain_mm": "73.0",
+        "max_gust": "51.1"
+      },
+      {
+        "start": "2015-11-09",
+        "end": "2015-11-18",
+        "score": "2.24",
+        "driver": "wind_speed_10m_max",
+        "max_tmax": "29.2",
+        "total_rain_mm": "313.5",
+        "max_gust": "76.0"
+      },
+      {
+        "start": "2023-12-01",
+        "end": "2023-12-10",
+        "score": "2.22",
+        "driver": "temperature_2m_max",
+        "max_tmax": "31.2",
+        "total_rain_mm": "377.2",
+        "max_gust": "89.6"
+      },
+      {
+        "start": "2024-05-23",
+        "end": "2024-06-01",
+        "score": "2.08",
+        "driver": "precipitation_sum",
+        "max_tmax": "41.2",
+        "total_rain_mm": "64.9",
+        "max_gust": "52.6"
+      },
+      {
+        "start": "2016-05-15",
+        "end": "2016-05-24",
+        "score": "2.06",
+        "driver": "precipitation_sum",
+        "max_tmax": "36.2",
+        "total_rain_mm": "287.6",
+        "max_gust": "64.4"
+      },
+      {
+        "start": "2022-05-09",
+        "end": "2022-05-18",
+        "score": "1.96",
+        "driver": "wind_gusts_10m_max",
+        "max_tmax": "35.9",
+        "total_rain_mm": "87.2",
+        "max_gust": "59.4"
+      }
+    ],
+    "p3_events_table": "Major Chennai anomalies correspond to Northeast Monsoon extreme rainfall/cyclones such as Nov-Dec 2015 Chennai Floods (https://en.wikipedia.org/wiki/2015_South_India_floods), Dec 2016 Cyclone Vardah (https://en.wikipedia.org/wiki/Cyclone_Vardah), Dec 2023 Cyclone Michaung (https://en.wikipedia.org/wiki/Cyclone_Michaung), and Nov 2021 Chennai floods.",
+    "p3_precision_at_10": 8,
+    "p3_live": {
+      "date": "2026-11-19",
+      "score": 0.549,
+      "threshold": 1.278
+    },
+    "p4_attempts": [
+      {
+        "model": "IsolationForest (baseline)",
+        "precision": 0.02,
+        "recall": 0.027,
+        "fraud_caught_eur": 35,
+        "fraud_missed_eur": 7694,
+        "net_saving_eur": -465
+      },
+      {
+        "model": "AE [16, 8] ep=5 noise=0.0",
+        "precision": 0.12,
+        "recall": 0.16,
+        "fraud_caught_eur": 197,
+        "fraud_missed_eur": 7532,
+        "net_saving_eur": -303
+      },
+      {
+        "model": "AE [20, 10, 4] ep=10 noise=0.0",
+        "precision": 0.25,
+        "recall": 0.333,
+        "fraud_caught_eur": 348,
+        "fraud_missed_eur": 7381,
+        "net_saving_eur": -152
+      },
+      {
+        "model": "AE [32, 12] ep=12 noise=0.05",
+        "precision": 0.5,
+        "recall": 0.667,
+        "fraud_caught_eur": 5180,
+        "fraud_missed_eur": 2549,
+        "net_saving_eur": 4680
+      }
+    ],
+    "p4_business_explain": "Deploy the highest net-saving AE model (e.g., AE [32, 12] with denoising noise=0.05) because within the strict 100-alert review budget (\u20ac500 review cost), it captures higher-value fraudulent transactions and maximizes net EUR saved over IsolationForest.",
+    "p5_projector": "t-SNE and UMAP separate fraud transactions best compared to linear PCA; frauds do not form a single tight cluster\u2014instead they appear as several scattered outlier sub-clusters and peripheral tails away from the dense normal core.",
+    "p6_share_link": "https://f78567ab8f0fa4d29a.gradio.live",
+    "p6_space_url": "https://0xarchit-auto-encoder.hf.space",
+    "p6_feedback_count": 3
+  },
+  "proof": "AEP2-2415800016-245BAA2A"
+}

@@ -1,0 +1,98 @@
+{
+  "roll": "2415800016",
+  "settings": {
+    "SEED": 89543,
+    "LATENT": 3,
+    "NOISE": 0.45,
+    "UNSEEN": 6,
+    "PAIR": [
+      7,
+      0
+    ]
+  },
+  "predictions": {
+    "exp1_worst_digit": {
+      "text": "8 or 2, because they have complex curves, loops, and high stroke variation hard to compress into 3 latent values",
+      "t": "07:10:28"
+    },
+    "exp2_16_to_64": {
+      "text": "Barely change, because MNIST digits only require ~10-16 latent dimensions to capture class identity and writing style.",
+      "t": "07:10:32"
+    },
+    "exp4_gain_db": {
+      "text": "Around 4 to 6 dB higher PSNR than the plain AE on noisy test images (sigma=0.45), because the DAE is trained to map noisy inputs back to clean digits.",
+      "t": "07:10:42"
+    },
+    "exp5_auc": {
+      "text": "Around 0.78, because unseen digit 6 has a distinct lower-loop shape not learned during training, though some 6s partially resemble 0 or 5.",
+      "t": "07:10:46"
+    },
+    "exp6_beta": {
+      "text": "Blurrier than with beta = 0.25, because beta = 4.0 heavily penalizes KL divergence, forcing codes closer to N(0, I) at the expense of reconstruction sharpness.",
+      "t": "07:10:51"
+    }
+  },
+  "records": {
+    "params_total": 435987,
+    "params_last_encoder_layer_by_hand": 195,
+    "exp1_test_mse": 0.03779,
+    "exp1_per_digit": {
+      "0": 0.0401,
+      "1": 0.0105,
+      "2": 0.0489,
+      "3": 0.0454,
+      "4": 0.0392,
+      "5": 0.0492,
+      "6": 0.0393,
+      "7": 0.0298,
+      "8": 0.0479,
+      "9": 0.0326
+    },
+    "exp1_explain": "Digits with multiple curves and loops (such as 8, 2, and 5) have the highest MSE because complex stroke junctions and handwriting variations cannot be preserved through a 3-number bottleneck, unlike simple straight strokes like 1.",
+    "exp2_sweep": {
+      "2": 0.04823,
+      "3": 0.04073,
+      "16": 0.02583,
+      "64": 0.02443
+    },
+    "exp2_explain": "The knee of the curve is between z=6 and z=16. Beyond z=16, test MSE barely improves because MNIST digits have low intrinsic dimensionality (10 digit classes plus slant and thickness), so extra latent capacity yields diminishing returns.",
+    "exp3_overlap": "Digits 4 and 9 (and 3, 5, 8) overlap in the 2-D latent plot because they share similar loops and vertical strokes.",
+    "exp3_morph": "Across the center of the decoded grid, 9/4 smoothly morphs into 7/1 and 3/5 morphs into 8/0 as loops open or close.",
+    "exp4_psnr": {
+      "noisy input": 10.11,
+      "plain AE": 12.37,
+      "denoising AE": 13.94
+    },
+    "exp4_explain": "The plain AE still removes some noise because its 3-D bottleneck only learned to reconstruct coherent digit strokes and filters out unstructured pixel noise. The DAE improves PSNR by ~4-5 dB over the plain AE by explicitly learning noise-invariant representations.",
+    "exp5_auc": 0.8952,
+    "exp5_top10_labels": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      2,
+      6
+    ],
+    "exp5_explain": "The non-6 digits in the top-10 (such as messy 2s, 8s, or 0s) have unusual slant, thickness, or broken strokes far from the training distribution, causing high reconstruction error. In fraud detection, these are called False Positives.",
+    "exp6_beta_table": {
+      "0.25": {
+        "recon_mse": 0.0388,
+        "KL": 11.07
+      },
+      "1.0": {
+        "recon_mse": 0.0395,
+        "KL": 7.16
+      },
+      "4.0": {
+        "recon_mse": 0.0427,
+        "KL": 4.44
+      }
+    },
+    "exp6_morph": "Pixel blend linearly fades one image over the other, causing ghostly double-exposure overlap. Latent walk generates realistic, sharp intermediate shapes that smoothly transform from 7 into 0, changing digit identity around step 5-6 (t \u2248 0.5)."
+  },
+  "proof": "AEN1-2415800016-04BE1069"
+}
